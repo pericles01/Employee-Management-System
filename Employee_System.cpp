@@ -19,6 +19,13 @@ int main()
 {
 
     smartDB employeeDB = std::make_unique<Records::Database>();
+    do {
+        employeeDB->setSQLConnection();
+        if (employeeDB->getSQLConnection()->isValid())
+            std::cout << "Connection established with SQL Server" << std::endl;
+
+    } while (!employeeDB->getSQLConnection()->isValid());
+
     bool done = true;
     while (done)
     {
@@ -73,6 +80,7 @@ uint32_t displayMenu()
 
     std::cin >> selection;
     std::cout << std::endl;
+    system("clear");
     return selection;
 }
 
@@ -146,6 +154,7 @@ void doHire(smartDB db)
     std::cin >> type;
     std::cout << std::endl;
     db->addEmployee(firstName, lastName, position, (type == "yes" || type == "Yes")? 1:0);
+    std::cout << " "<< std::endl;
     std::cout << "Employee '"<< firstName <<" "<< lastName <<"' hired & added to employee database" << std::endl;
 }
 void doFire(smartDB db)
@@ -162,6 +171,7 @@ void doFire(smartDB db)
 void doPromote(smartDB db)
 {
     uint32_t raiseAmount;
+    std::string position;
     std::cout << "Promote employee" << std::endl;
     std::cout << "-----------------" << std::endl;
     auto employee = findEmployee(db);
@@ -171,7 +181,12 @@ void doPromote(smartDB db)
         std::cin >> raiseAmount;
         std::cout << std::endl;
         employee->promote(raiseAmount);
+        std::cout << "Input the new position ";
+        std::cin >> position;
+        employee->setProfession(position);
+        std::cout << std::endl;
         std::cout << "Employee '"<< employee->getFirstName()<<" "<< employee->getLastName()<<"' got promoted" << std::endl;
+        std::cout << "New position: '" << employee->getProfession() << "' " << std::endl;
     }
 }
 void doDemote(smartDB db)

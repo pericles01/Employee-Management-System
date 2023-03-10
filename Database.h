@@ -37,7 +37,7 @@ public:
     const std::vector<Emp> &getEmployeeList() const;
     void setEmployeeList(const Emp &employee, const bool &remove=0);
     void setSQLConnection();
-    sql::Statement* getSQLStatement() const;
+    sql::Connection* getSQLConnection() const;
 
 private:
     std::vector<Emp> mEmployeeList;

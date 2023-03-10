@@ -17,14 +17,13 @@ void Database::setSQLConnection() {
         Emp employee;
         sql::Driver* driver = get_driver_instance();
         std::string user = "peri";
-        std::string passwort = "";
+        std::string passwort = "PeriAtDassault01";
 
         con = driver->connect("tcp://127.0.0.1:3306", user, passwort);
-
         stmt = con->createStatement();
-        con->setSchema("testdb");
+        con->setSchema("employee_system");
 
-        sql::ResultSet* res = stmt->executeQuery("SELECT id, firstname, lastname, profession, salary, period FROM test ORDER BY id ASC");
+        sql::ResultSet* res = stmt->executeQuery("SELECT id, firstname, lastname, profession, salary, period FROM employee_record ORDER BY id ASC");
         while (res->next() && con->isValid()) {
             employee.setEmployeeNumber(stoi(static_cast<std::string>(res->getString("id"))));
             employee.setFirstName(static_cast<std::string>(res->getString("firstname")));
@@ -49,8 +48,8 @@ void Database::setSQLConnection() {
 
 }
 
-sql::Statement* Database::getSQLStatement() const {
-    return stmt;
+sql::Connection* Database::getSQLConnection() const {
+    return con;
 }
 
 const std::vector<uint32_t> &Database::getIdList() const
@@ -73,7 +72,7 @@ void Database::setEmployeeList(const Emp &employee, const bool& remove)
     if (!remove) {
         mEmployeeList.push_back(employee);
         // save into DB
-        std::string sqlStmt = "INSERT INTO test(id, firstname, lastname, profession, salary, period) VALUES (";
+        std::string sqlStmt = "INSERT INTO employee_record (id, firstname, lastname, profession, salary, period) VALUES (";
         sqlStmt += std::to_string(employee.getEmployeeNumber());
         sqlStmt += ",'";
         sqlStmt += employee.getFirstName();
@@ -91,7 +90,7 @@ void Database::setEmployeeList(const Emp &employee, const bool& remove)
     else {
         mEmployeeList.erase(std::find(mEmployeeList.begin(), mEmployeeList.end(), employee));
         //delete from DB
-        std::string sqlStmt = "DELETE FROM test WHERE id=";
+        std::string sqlStmt = "DELETE FROM employee_record WHERE id=";
         sqlStmt += std::to_string(employee.getEmployeeNumber());
         stmt->execute(sqlStmt);
     }
@@ -187,6 +186,8 @@ const uint32_t Database::generateNewId()
 
 void Database::displayAll() const
 {
+    std::cout << "Display all employees" << std::endl;
+    std::cout << "-----------------" << std::endl;
     std::vector<Emp> empList = getEmployeeList();
     if (!empList.empty())
     {
@@ -202,6 +203,8 @@ void Database::displayAll() const
 
 void Database::displayPartTimeEmployees() const
 {
+    std::cout << "Display all part time employees" << std::endl;
+    std::cout << "-----------------" << std::endl;
     std::vector<Emp> empList = getEmployeeList();
     if (!empList.empty())
     {
@@ -224,6 +227,8 @@ void Database::displayPartTimeEmployees() const
 
 void Database::displayFullTimeEmployees() const
 {
+    std::cout << "Display all full time employees" << std::endl;
+    std::cout << "-----------------" << std::endl;
     std::vector<Emp> empList = getEmployeeList();
     if (!empList.empty())
     {
