@@ -17,7 +17,7 @@ void Database::setSQLConnection() {
         Emp employee;
         sql::Driver* driver = get_driver_instance();
         std::string user = "peri";
-        std::string passwort = "PeriAtDassault01";
+        std::string passwort = "Peri";
 
         con = driver->connect("tcp://127.0.0.1:3306", user, passwort);
         stmt = con->createStatement();
@@ -40,7 +40,7 @@ void Database::setSQLConnection() {
     }
     catch (sql::SQLException& e) {
         std::cout << "# ERR: SQLException in " << __FILE__;
-        std::cout << "(" << __FUNCTION__ << ") on line  »" << __LINE__ << std::endl;
+        std::cout << "(" << __FUNCTION__ << ") on line  ï¿½" << __LINE__ << std::endl;
         std::cout << "# ERR: " << e.what();
         std::cout << " (MySQL error code: " << e.getErrorCode();
         std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
