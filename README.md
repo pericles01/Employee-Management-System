@@ -2,6 +2,10 @@
 Small system to manage employees in a factory.
 The system is able to connect with a sql server at runtime for a bidirectional communication.
 
+# Live test
+
+Youtube [link](https://youtu.be/yEOUYYvp2GE)
+
 # Installation
 - Download & Install [MySQL Installer and C++ connectors] (https://dev.mysql.com/downloads/)
 - Configure your visual studio environmnt in the right way
